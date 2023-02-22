@@ -19,11 +19,13 @@ def get_words():
 
 
 def get_new_card():
+    global reset_flip_timer
+    window.after_cancel(reset_flip_timer)
     current_card = random.choice(words_dictionary)
     canvas.itemconfig(canvas_image, image=card_front_img)
     canvas.itemconfig(title_name, text="French", font=("Ariel", 40, "italic"), fill="black")
     canvas.itemconfig(word_picked, text=f"{current_card['French']}", fill="black")
-    window.after(3000, flip_card)
+    reset_flip_timer = window.after(3000, flip_card)
 
 
 def flip_card():
@@ -44,7 +46,7 @@ canvas.grid(row=0, column=0, columnspan=2)
 card_front_img = tk.PhotoImage(file="images/card_front.png")
 canvas_image = canvas.create_image(400, 263, image=card_front_img)
 card_back_img = tk.PhotoImage(file="images/card_back.png", width=400, height=263)
-window.after(3000, flip_card)
+reset_flip_timer = window.after(3000, flip_card)
 
 title_name = canvas.create_text(400, 150, text=f"FRENCH", font=("Ariel", 40, "italic"))
 word_picked = canvas.create_text(400, 263, text=f"{words_dictionary[selection]['French']}", font=("Ariel", 60, "bold"))
